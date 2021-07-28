@@ -7,7 +7,7 @@
 
 
 const PrivateKeyProvider = require("truffle-privatekey-provider");
-const privateKey = "EAAFE8A2221A1D023FE55FD9DF3F6784AE91746863E279B9F7A286722CBC6D22";
+const privateKey = "...";
 const gasPrice = 10000000000; // (10 gwei)
 
 const network = {
