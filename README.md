@@ -13,6 +13,8 @@ Another application of locking funds could be to create a small fund or time-bas
 ![Screenshot](ui_topup_time_lock_wallet.png)
 ![Screenshot](ui_clain_from_time_lock_wallet.png)
 
+## How to start in local environment
+
 1. Deploy TimeLockedWalletFactory.sol
 2. Run `npm i` 
 3. Run `npm run dev`
