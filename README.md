@@ -9,8 +9,11 @@ Probably the most common reason at the moment to lock funds is called “vesting
 Another application of locking funds could be to create a small fund or time-based savings account, i.e., one that prevents the owner from withdrawing any funds before a certain time in the future. (It could be particularly useful for addicted crypto traders in helping keep their ether/tokens intact.)
 
 ## Sample images
+### Step1 - Create new time-locked wallet
 ![Screenshot](ui_sample_new_time_lock_wallet.png)
+### Step2 - TopUp funds in the time-locked wallet with tokens (ETH and any ERC20 token are supported)
 ![Screenshot](ui_topup_time_lock_wallet.png)
+### Step2 - The beneficiary address can claim funds from the multi-locked wallet
 ![Screenshot](ui_clain_from_time_lock_wallet.png)
 
 ## How to start in local environment
