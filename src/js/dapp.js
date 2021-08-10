@@ -552,7 +552,7 @@ DApp.prototype.initTable = function() {
                 sortable: false
             },{ 
                 field: 'value',
-                title: "Wallet Balance",
+                title: "u",
                 formatter: this.valueFormatter.bind(this),
                 sortable: false
             },{ 
