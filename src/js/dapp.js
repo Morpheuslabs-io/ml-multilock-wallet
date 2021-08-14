@@ -71,18 +71,19 @@ DApp.prototype.initContract = function () {
                 this.walletContract.setProvider(this.web3Provider);
                 console.log("[x] TimeLockedWallet contract initialized.");
 
-                window.web3.eth.getAccounts((error, accounts) => {
+                window.web3.eth.getAccounts(async (error, accounts) => {
                     if (error) {
                         console.error(error);
                     } else {
                         this.currentAccount = accounts[0];
                         console.log("[x] Using account", this.currentAccount);
-                        this.initCreateWalletForm();
-                        this.initTopupWalletForm();
-                        this.initClaimForm();
-                        this.prefillCreateWalletForm();
-                        this.initTable();
-                        this.loadWallets();
+                        console.log("[x] Initing forms");
+                        await this.initCreateWalletForm();
+                        await this.initTopupWalletForm();
+                        await this.initClaimForm();
+                        await this.prefillCreateWalletForm();
+                        await this.initTable();
+                        await this.loadWallets();
                     }
                 });
             });
@@ -90,7 +91,7 @@ DApp.prototype.initContract = function () {
     });
 }
 
-DApp.prototype.loadWallets = function () {
+DApp.prototype.loadWallets = async function () {
     if(this.development) {
         this.factoryContract.deployed()
             .then((factoryInstance) => {
@@ -103,11 +104,15 @@ DApp.prototype.loadWallets = function () {
     } else {
         this.factoryContract.at(this.factoryAddress)
             .then((factoryInstance) => {
+                console.log("Loading wallets from factory");
                 return factoryInstance.getWallets(this.currentAccount);
             })
             .then((walletAddresses) => {
                 console.log("[x] Number of existing wallets:", walletAddresses.length);
                 walletAddresses.forEach((wallet) => this.loadSingleWallet(wallet));
+            }).catch(function(err) {
+                console.log(err);
+                alert('Factory contract not found on currently chain!');
             });
     }
 }
@@ -349,7 +354,7 @@ DApp.prototype.getKnownWalletBallance = function(walletAddress, token){
     return value;
 }
 
-DApp.prototype.initCreateWalletForm = function () {
+DApp.prototype.initCreateWalletForm = async function () {
     $('input.release-date').datepicker({
         uiLibrary: 'bootstrap4'
     });
@@ -390,7 +395,7 @@ DApp.prototype.initCreateWalletForm = function () {
     });
 }
 
-DApp.prototype.prefillCreateWalletForm = function(){
+DApp.prototype.prefillCreateWalletForm = async function(){
     $("#create-wallet-form #ethereumAddress").val(this.currentAccount);
     $("#create-wallet-form #etherAmount").val(0.0);
     let date = new Date();
@@ -400,8 +405,8 @@ DApp.prototype.prefillCreateWalletForm = function(){
     $("#create-wallet-form #unlockDate").val(date);
 }
 
-DApp.prototype.initTopupWalletForm = function(){
-    console.log("initTopupWalletForm");
+DApp.prototype.initTopupWalletForm = async function(){
+    console.log("[x] initTopupWalletForm");
     $("#topup-wallet-form").submit((event) => {
         event.preventDefault();
         let form = $(event.target);
@@ -448,9 +453,16 @@ DApp.prototype.updateClaimWalletAddresses = function(walletAddress, to){
 }
 
 DApp.prototype.updateClaimForm = function(){
+
+    console.log("Update wallet", this.wallets.length);
     let form = $('#claim-funds-form');
     let wallet = $('#claimWalletAddresses').val();
     let currency = form.find("#claimableCurrency").val();
+
+    if(this.wallets.length == 0) return;
+
+    console.log("Update wallet");
+
     if(currency == "tokenerc20") {
         let tokenValue = this.getKnownWalletBallance(wallet, this.tokenName)
         let tokenAmount = new BigNumber(`${tokenValue}`).div(this.baseToken).toNumber();
@@ -462,11 +474,17 @@ DApp.prototype.updateClaimForm = function(){
         let isWithdraws = this.wallets[wallet].isWithdraws;
 
         timeLocks.forEach( (time, idx) => {
+            console.log(time, idx);
             let unLockAmout = new BigNumber(amountLocks[idx]).div(this.baseToken).toNumber();
             let ult = this.dateFormatter(time.toNumber());
             unlocks += `Unlock ${idx + 1}: ${ult}, ${unLockAmout} ${this.tokenName}s ${isWithdraws[idx]?'withdrawed':''}<br/>`;
+            let currentTime = new Date().getTime();
+            console.log(currentTime, time.toNumber(), currentTime > time.toNumber());
+            if(currentTime > time.toNumber()) {
+                $('#claim-funds-form button').prop( "disabled", true );
+            }
         });
-        // console.log(unlocks);
+        console.log(unlocks);
         $("#claimSchedule", form).html(unlocks);
 
     } else {
@@ -489,8 +507,7 @@ DApp.prototype.updateClaimForm = function(){
     });
 }
 
-DApp.prototype.initClaimForm = function(){
-    console.log("initClaimForm");
+DApp.prototype.initClaimForm = async function(){
 
     $('#claim-funds-form #claimWalletAddresses').change(this.updateClaimForm.bind(this));
     $('#claim-funds-form #claimableCurrency').change(this.updateClaimForm.bind(this));
@@ -506,7 +523,7 @@ DApp.prototype.initClaimForm = function(){
     });
 }
 
-DApp.prototype.initTable = function() {
+DApp.prototype.initTable = async function() {
     this.table = $("#wallets-table");
     this.table.bootstrapTable({
         iconsPrefix: 'fa',
