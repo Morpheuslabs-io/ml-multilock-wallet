@@ -569,7 +569,7 @@ DApp.prototype.initTable = async function() {
                 sortable: false
             },{ 
                 field: 'value',
-                title: "Wallet Balance",
+                title: "u",
                 formatter: this.valueFormatter.bind(this),
                 sortable: false
             },{ 
