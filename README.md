@@ -20,9 +20,9 @@ The instructions below guide you through deploying and testing smart contracts o
     - Create a new `.env` file
     - Copy content of `env.example` into `.env` file
     - Provide followings:
-        - `ETHERSCAN_API_KEY`
-        - `MAINNET_DEPLOYER`, and `TESTNET_DEPLOYER` 
-        - `MAINNET_PROVIDER`, and `GOERLI_PROVIDER`
+        - API_KEY: `ETHERSCAN_API_KEY`
+        - Private Keys: `MAINNET_DEPLOYER`, and `TESTNET_DEPLOYER`
+        - RPC Providers: `MAINNET_PROVIDER`, and `GOERLI_PROVIDER`
 
 ### Compile Smart Contracts
 **NOTE:** Must keep your JSON files up-to-date. Please run the following command to update:
