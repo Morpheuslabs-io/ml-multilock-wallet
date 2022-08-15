@@ -20,9 +20,9 @@ The instructions below guide you through deploying and testing smart contracts o
     - Create a new `.env` file
     - Copy content of `env.example` into `.env` file
     - Provide followings:
-        - `POLYGON_API_KEY` and `ETHERSCAN_API_KEY`
-        - `TESTNET_DEPLOYER` and `MAINNET_DEPLOYER`
-        - `MUMBAI_POLYGON_PROVIDER`, `MATIC_POLYGON_PROVIDER`, and `RINKEBY_PROVIDER`
+        - `ETHERSCAN_API_KEY`
+        - `MAINNET_DEPLOYER`, and `TESTNET_DEPLOYER` 
+        - `MAINNET_PROVIDER`, and `GOERLI_PROVIDER`
 
 ### Running Tests
 - Run a command:
@@ -35,17 +35,12 @@ The instructions below guide you through deploying and testing smart contracts o
 - `TokenTimeLockedWallet` is created by `TimeLockedWalletFactory` contract -> deploy `TimeLockedWalletFactory` only
 
 - Deployment script is provided. You can either deploy it on testnet (Rinkeby/Mumbai) or Mainnet (Matic)
-    - Rinkeby: run a command
+    - Goerli: run a command
     ```bash
-        yarn rinkeby scripts/1_deploy_factory.js
-    ```
-
-    - Mumbai: run a command
-    ```bash
-        yarn mumbai scripts/1_deploy_factory.js
+        yarn goerli scripts/1_deploy_factory.js
     ```
     
     - Mainnet: run a command
     ```bash
-        yarn matic scripts/1_deploy_factory.js
+        yarn ethereum scripts/1_deploy_factory.js
     ```

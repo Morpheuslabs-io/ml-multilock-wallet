@@ -6,13 +6,15 @@ async function main() {
     console.log("Deployer account:", Deployer.address);
     console.log("Account balance:", (await Deployer.getBalance()).toString());
 
-    //  Deploy TimeLockedWalletFactory contract
-    console.log('\nDeploy TimeLockedWalletFactory Contract .........');
-    const Factory = await ethers.getContractFactory('TimeLockedWalletFactory', Deployer);
-    const factory = await Factory.deploy();
-    await factory.deployed();
+    //  Deploy Mock ERC-20 contract
+    console.log('\nDeploy Mock ERC-20 Token Contract .........');
+    const Token = await ethers.getContractFactory('Token', Deployer);
+    const name = 'Morpheuslabs Token on testnet';
+    const symbol = 'MITx';
+    const token = await Token.deploy(name, symbol);
+    await token.deployed();
 
-    console.log('TimeLockedWalletFactory Contract: ', factory.address);
+    console.log('Mock ERC-20 Token Contract: ', token.address);
 
     console.log('\n ===== DONE =====')
 }

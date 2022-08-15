@@ -34,29 +34,21 @@ module.exports = {
             live: false, 
             saveDeployments: true
         },
-        matic: {
-            url: process.env.MATIC_POLYGON_PROVIDER,
+        ethereum: {
+            url: process.env.MAINNET_PROVIDER,
             accounts: [
                 process.env.MAINNET_DEPLOYER,
             ],
             timeout: 900000,
-            chainId: 137,
+            chainId: 1,
         },
-        mumbai: {
-            url: process.env.MUMBAI_POLYGON_PROVIDER,
+        goerli: {
+            url: process.env.GOERLI_PROVIDER,
             accounts: [
                 process.env.TESTNET_DEPLOYER
             ],
             timeout: 20000,
-            chainId: 80001
-        },
-        rinkeby: {
-            url: process.env.RINKEBY_PROVIDER,
-            accounts: [
-                process.env.TESTNET_DEPLOYER
-            ],
-            timeout: 20000,
-            chainId: 4
+            chainId: 5
         },
     },
 
@@ -69,6 +61,6 @@ module.exports = {
     },
 
     etherscan: {
-        apiKey: process.env.POLYGON_API_KEY,
+        apiKey: process.env.ETHERSCAN_API_KEY,
     }
 }

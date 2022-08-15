@@ -6,9 +6,8 @@
     "prettier": "prettier --write **/*.sol",
     "compile": "hardhat compile",
     "test": "hardhat test",
-    "mumbai": "hardhat run --network mumbai",
-    "rinkeby": "hardhat run --network rinkeby",
-    "matic": "hardhat run --network matic"
+    "ethereum": "hardhat run --network ethereum",
+    "goerli": "hardhat run --network goerli"
   },
   "dependencies": {
     "@atixlabs/hardhat-time-n-mine": "^0.0.5",
