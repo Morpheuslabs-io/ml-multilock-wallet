@@ -1,15 +1,16 @@
 const NETWORK = {
     ROPSTEN:'https://ropsten.etherscan.io/',
     RINKEBY:'https://rinkeby.etherscan.io/',
-    MAINNET:'https://etherscan.io/'
+    MAINNET:'https://etherscan.io/',
+    GOERLI: 'https://goerli.etherscan.io'
 }
 
-// default network is rinkeby
-const defaultNetwork = 'RINKEBY';
+// default network is Goerli
+const defaultNetwork = 'GOERLI';
 
 const DApp = function () {
-    this.factoryAddress = "0x4b1b145E23E783b83A0dD808bF9cd7C4EB270F4e";
-    this.tokenAddress = "0xe880141c45D66A131c99DaCC88dbc32F85B454B2";
+    this.factoryAddress = "0x6f1479e73099a81F516f2D32F33b642DC329C0C3";
+    this.tokenAddress = "0xdf60a8D4B81325bA6cB292Dd13B4657A91B1e54B";
     this.tokenName = "MITx";
     this.network = NETWORK[defaultNetwork];
 
@@ -556,7 +557,7 @@ DApp.prototype.initTable = async function() {
                 formatter: this.hashFormatter.bind(this),
             },{ 
                 field: 'wallet',      
-                title: 'Wallet',
+                title: 'Wallet Contract Address',
                 formatter: this.hashFormatter.bind(this),    
             },{ 
                 field: 'createdAt',
@@ -640,7 +641,7 @@ DApp.prototype.typeFormatter = function(type){
 
 DApp.prototype.hashFormatter = function(hash, row, index){
     shortHash = hash.slice(0, 10);
-    return `<a href="${this.network}/${hash}" target="_blank">${shortHash}...</a>`;
+    return `<a href="${this.network}/address/${hash}" target="_blank">${shortHash}...</a>`;
 }
 
 DApp.prototype.dateFormatter = function(timestamp, row, index){
@@ -717,7 +718,7 @@ DApp.prototype.actionFormatter = function(value, row, index, field){
     var unlockDate = row["unlockDate"];
     var now = Math.floor(Date.now() / 1000);
     if(now >= unlockDate && row["to"] == this.currentAccount) {
-        var html = `<button class="btn btn-danger" onClick="window.dApp.handleTopupButtonClick('${row['wallet']}')">Topup</button>` +
+        var html = `<button class="btn btn-danger" onClick="window.dApp.handleClaimButtonClick('${row['wallet']}')">Claim</button>` +
                 `<button class="btn btn-warning text-white" onClick="window.dApp.handleClaimButtonClick('${row['wallet']}')">Claim</button>`;
     } else {
         var html = `<button class="btn btn-danger" onClick="window.dApp.handleTopupButtonClick('${row['wallet']}')">Topup</button>`;
